@@ -1,11 +1,5 @@
 //import fetch from "node-fetch";
 
-//let number = 1;
-//let URI_pokeAPI = `https://pokeapi.co/api/v2/pokemon/`;
-
-//let respuestaAPI;
-//let respuestaApiJson;
-
 let counter = 20;
 let iterator = 1;
 let getRespuestaJson;
@@ -25,7 +19,7 @@ async function getpokemon(iter,count)
     let container = document.getElementById('container_cards');
     container.innerHTML = "";
 
-    invisiblePreview();
+    invisiblePreview();//Se ejecuta la funcion para validar el estado de los contadores e iteradores
 
     for(let i = iter ; i <= count; i++)
     {
@@ -118,12 +112,10 @@ const invisiblePreview = () =>
     
 }
 
-//let URI_byName = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
-//let URI_byId = `https://pokeapi.co/api/v2/pokemon/${id}`;
-//getJson(URI)
-
 async function gotcha()
 {
+    //let idSearch;
+
     let containerCardSearch = document.getElementById('container_card_search');
     containerCardSearch.innerHTML = "";
 
@@ -135,6 +127,16 @@ async function gotcha()
         search = search.toLowerCase();
         URI_byName = `https://pokeapi.co/api/v2/pokemon/${search}`;
 
+        /* idSearch = await getJson(URI_byName)
+        idSearch = idSearch.id
+        iterator = idSearch + 1;
+        console.log("🚀 ~ idSearch", iterator)
+        counter = iterator + 20;
+        console.log("🚀 ~ counter", counter)
+        
+        visiblePreview()
+        getpokemon(iterator,counter)
+         */
         printSeacrhCard(containerCardSearch, await getJson(URI_byName))
 
         if (getJsonByName.id == undefined)
@@ -160,15 +162,19 @@ async function gotcha()
     
 }
 
-const printSeacrhCard = (containerCard ,setUriCard) =>
+const printSeacrhCard = (setcontainerCard ,setUriCard) =>
 {
-    containerCard.innerHTML += `
+    setcontainerCard.innerHTML += `
             <div id = "card-pokemon" class = "card pt-3 " style="width: 18rem;"> 
-                <a href="#">
+
+                <a id = "pokemon-${setUriCard.id}" href="#">
+
                     <h3 id="number_of_pokemon">${idPokemon(setUriCard)}</h3>
+                    
                     <img src=${setUriCard.sprites.other["official-artwork"].front_default} class="card-img-top" alt="${setUriCard.name}.png">
                     
                     <div class="card-body">
+
                         <h3 class="card-title">${transformName(setUriCard)}</h3>
                         <p class="card-text"><b>Type:</b> ${transformType(setUriCard)}</p>
                         
