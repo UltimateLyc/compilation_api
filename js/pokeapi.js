@@ -33,15 +33,17 @@ async function getpokemon(iter,count)
         await getJson(URI);
 
         container.innerHTML += `
-        <div class = "card m-1 pt-3" style="width: 18rem;"> 
-            <h3 id="number_of_pokemon">${idPokemon()}</h3>
-            <img src=${respuestaApiJson.sprites.other["official-artwork"].front_default} class="card-img-top" alt="${respuestaApiJson.name}.png">
-            
-            <div class="card-body">
-                <h3 class="card-title">${transformName()}</h3>
-                <p class="card-text"><b>Type:</b> ${transformType()}</p>
+        <div class = "card pt-3 " style="width: 18rem;"> 
+            <a href="#">
+                <h3 id="number_of_pokemon">${idPokemon()}</h3>
+                <img src=${respuestaApiJson.sprites.other["official-artwork"].front_default} class="card-img-top" alt="${respuestaApiJson.name}.png">
                 
-             </div>
+                <div class="card-body">
+                    <h3 class="card-title">${transformName()}</h3>
+                    <p class="card-text"><b>Type:</b> ${transformType()}</p>
+                    
+                </div>
+            </a>
         </div>
         `;//col-sm-12 col-md-6 col-lg-4
     }
@@ -116,9 +118,7 @@ let btn_preview = () =>
     if (iterator > 1)
     {
         iterator -= 20;
-        console.log("🚀 ~ iterator", iterator)
         counter -= 20;
-        console.log("🚀 ~ counter", counter)
         getpokemon(iterator,counter);
     }
 }
