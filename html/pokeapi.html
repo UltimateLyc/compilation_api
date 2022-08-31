@@ -16,15 +16,22 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="container-fluid">
-          <a class="navbar-brand">Pokemón</a>
+    <nav id="navbar" class="navbar navbar-dark bg-dark">
+        <div id="navbar-container" class="container-fluid">
+          <!-- <a class="navbar-brand">Pokemón</a> -->
+          <img id="title-pokemon" class="navbar-brand" src="../assets/img/title-pokemon.png" alt="">
+
           <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-dark btn-outline-light" type="submit">Search</button>
+            
+            <button id="btn-gotcha" class="btn btn-dark btn-outline-light" type="submit">Gotcha! <img id="img-pokeball" src="../assets/img/pokebola_2.png" alt="">
+            </button>
+
           </form>
+
         </div>
       </nav>
+
 
     <div class="row mt-4 mb-4" id="container_cards"> </div>
 

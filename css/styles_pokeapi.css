@@ -1,3 +1,37 @@
+@font-face {
+    font-family: pokemon-font;
+    src: url(../assets/fonts/PressStart2P-Regular.ttf);
+}
+
+*
+{
+    font-family: 'pokemon-font';
+    margin: 0px;
+    padding: 0px;
+}
+
+h3
+{
+    font-size: 20px;
+}
+
+p
+{
+    font-size: medium;
+    font-weight: normal;
+}
+
+/* #navbar-container
+{
+    display: flex;
+    flex-direction: column;
+} */
+
+#title-pokemon
+{
+    height: 60px ;
+}
+
 #container_cards
 {
     width: 100%;
@@ -20,11 +54,32 @@ a:hover
 {
     margin: 5px;
     background-color: #F2F2F2;
+    cursor: pointer;
 }
 
 .card:hover
 {
     box-shadow: 5px 5px 5px rgba(38, 38, 38, 0.5);
     transform: scale(1.02);
+}
+
+#btn-gotcha
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#btn-gotcha:hover
+{
+    transform: scale(1.05);
+    box-shadow: 3px 3px 3px rgba(222, 222, 222, 0.5);
+}
+
+#img-pokeball
+{
+    margin-left: 15px;
+    width: 30px;
 }
 
