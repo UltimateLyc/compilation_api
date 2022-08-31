@@ -3,54 +3,41 @@
 //let number = 1;
 //let URI_pokeAPI = `https://pokeapi.co/api/v2/pokemon/`;
 
-let respuestaAPI;
-let respuestaApiJson;
+//let respuestaAPI;
+//let respuestaApiJson;
 
 let counter = 20;
-
 let iterator = 1;
+let getRespuestaJson;
 
 async function getJson(URI)
 {
-    respuestaAPI = await fetch(URI);
-    respuestaApiJson = await respuestaAPI.json();
+    let respuestaAPI = await fetch(URI);
+    let respuestaApiJson = await respuestaAPI.json();
+    return respuestaApiJson;
 }
 
 
 async function getpokemon(iter,count)
 {
     let URI;
+    
     let container = document.getElementById('container_cards');
     container.innerHTML = "";
 
-    invisiblePreview()
+    invisiblePreview();
 
     for(let i = iter ; i <= count; i++)
     {
         URI = `https://pokeapi.co/api/v2/pokemon/${i}`;
-        await getJson(URI);
-
-        container.innerHTML += `
-        <div class = "card pt-3 " style="width: 18rem;"> 
-            <a href="#">
-                <h3 id="number_of_pokemon">${idPokemon()}</h3>
-                <img src=${respuestaApiJson.sprites.other["official-artwork"].front_default} class="card-img-top" alt="${respuestaApiJson.name}.png">
-                
-                <div class="card-body">
-                    <h3 class="card-title">${transformName()}</h3>
-                    <p class="card-text"><b>Type:</b> ${transformType()}</p>
-                    
-                </div>
-            </a>
-        </div>
-        `;//col-sm-12 col-md-6 col-lg-4
+        printSeacrhCard(container, await getJson(URI))
     }
         
 }
 
-const transformName = () =>
-{
-    let splitByName = respuestaApiJson.name.split(''); //Se usa para separar el string
+const transformName = (setName) =>
+{ 
+    let splitByName = setName.name.split(''); //Se usa para separar el string
     let upperCase = splitByName[0].toUpperCase();//Creamos la primera letra en mayuscula
     splitByName.shift();//Quitamos la primera letra
     splitByName.unshift(upperCase);//Agregamos al inicio la letra que convertimos en mayuscula
@@ -58,9 +45,9 @@ const transformName = () =>
     return splitByName;
 }
 
-const transformType = () =>
+const transformType = (setType) =>
 {
-    let getType = (respuestaApiJson.types.map((objeto)=>objeto.type.name));
+    let getType = (setType.types.map((objeto)=>objeto.type.name));
     let shiftType = getType.shift();
     let splitType = shiftType.split('');
     let upperCaseType =  splitType[0].toUpperCase();
@@ -74,9 +61,9 @@ const transformType = () =>
     return getType;
 }
 
-let idPokemon = () =>
+let idPokemon = (setId) =>
 {
-    let getIdPokemon = respuestaApiJson.id;
+    let getIdPokemon = setId.id;
     //console.log(getIdPokemon)
     if (getIdPokemon <= 9)
     {
@@ -93,9 +80,7 @@ let idPokemon = () =>
 let btn_next = () =>
 {
     iterator = counter +1;
-    console.log("🚀 ~ iterator", iterator)
     counter += 20;
-    console.log("🚀 ~ counter", counter);
     getpokemon(iterator,counter);
 
     if (iterator > 2 )
@@ -137,22 +122,59 @@ const invisiblePreview = () =>
 //let URI_byId = `https://pokeapi.co/api/v2/pokemon/${id}`;
 //getJson(URI)
 
-let gotcha = () =>
+async function gotcha()
 {
+    let containerCardSearch = document.getElementById('container_card_search');
+    containerCardSearch.innerHTML = "";
+
     let search = document.getElementById('search-pokemon').value;
-    let numberSearch = Number(search)
+    let numberSearch = Number(search);
 
     if(isNaN(numberSearch)) //Validamos si el valor ingresado no es un numero :. quiere decir que es un string
     {
-
-        console.log('no se ingreso un numero')
         search = search.toLowerCase();
-        console.log("🚀 ~ number", search)
+        URI_byName = `https://pokeapi.co/api/v2/pokemon/${search}`;
+
+        printSeacrhCard(containerCardSearch, await getJson(URI_byName))
+
+        if (getJsonByName.id == undefined)
+        {
+            alert("ingreso mal todo ¡tas tonto o que!");
+        }
+
     }
     else{
-        console.log("Se ingreso un numero", numberSearch)
+    
+        let URI_byId = `https://pokeapi.co/api/v2/pokemon/${numberSearch}`;
+
+        if (numberSearch > 905)
+        {
+            alert("Ese pokemon ni existe mamon!");
+        }
+        else
+        {
+            printSeacrhCard(containerCardSearch, await getJson(URI_byId))
+        }
+        
     }
     
+}
+
+const printSeacrhCard = (containerCard ,setUriCard) =>
+{
+    containerCard.innerHTML += `
+            <div id = "card-pokemon" class = "card pt-3 " style="width: 18rem;"> 
+                <a href="#">
+                    <h3 id="number_of_pokemon">${idPokemon(setUriCard)}</h3>
+                    <img src=${setUriCard.sprites.other["official-artwork"].front_default} class="card-img-top" alt="${setUriCard.name}.png">
+                    
+                    <div class="card-body">
+                        <h3 class="card-title">${transformName(setUriCard)}</h3>
+                        <p class="card-text"><b>Type:</b> ${transformType(setUriCard)}</p>
+                        
+                    </div>
+                </a>
+            </div>`;
 }
 
 getpokemon(iterator,counter);

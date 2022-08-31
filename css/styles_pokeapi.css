@@ -32,11 +32,15 @@ p
     height: 60px ;
 }
 
+#container_card_search, #container_cards
+{
+    justify-content: center;
+    text-align: center;
+}
+
 #container_cards
 {
     width: 100%;
-    justify-content: center;
-    text-align: center;
 }
 
 a
@@ -50,14 +54,14 @@ a:hover
     color: black;
 }
 
-.card
+#card-pokemon
 {
     margin: 5px;
     background-color: #F2F2F2;
     cursor: pointer;
 }
 
-.card:hover
+#card-pokemon:hover
 {
     box-shadow: 5px 5px 5px rgba(38, 38, 38, 0.5);
     transform: scale(1.02);
