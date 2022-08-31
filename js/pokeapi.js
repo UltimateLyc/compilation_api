@@ -1,13 +1,16 @@
 //import fetch from "node-fetch";
 
-let number = 1;
-let URI_pokeAPI = `https://pokeapi.co/api/v2/pokemon/${number}`;
-
-let container = document.getElementById('container_cards');
-container.innerHTML = "";
+//let number = 1;
+//let URI_pokeAPI = `https://pokeapi.co/api/v2/pokemon/`;
 
 let respuestaAPI;
 let respuestaApiJson;
+
+
+
+let counter = 20;
+
+let iterator = 1;
 
 async function getJson(URI)
 {
@@ -16,17 +19,22 @@ async function getJson(URI)
 }
 
 
-async function getpokemon()
+async function getpokemon(iter,count)
 {
     let newURI;
+    let container = document.getElementById('container_cards');
+    container.innerHTML = "";
 
-    for(let i = 1; i <= 20; i++)
+    for(let i = iter ; i <= count; i++)
     {
         newURI = `https://pokeapi.co/api/v2/pokemon/${i}`;
         await getJson(newURI);
-        
+
+        idPokemon()
+
         container.innerHTML += `
-        <div class = "card m-1 col-sm-12 col-md-6 col-lg-4" style="width: 18rem;">
+        <div class = "card m-1" style="width: 18rem;"> 
+            <h3 id="number_of_pokemon">${respuestaApiJson.id}</h3>
             <img src=${respuestaApiJson.sprites.other["official-artwork"].front_default} class="card-img-top" alt="${respuestaApiJson.name}.png">
             
             <div class="card-body">
@@ -35,21 +43,19 @@ async function getpokemon()
                 
              </div>
         </div>
-        `;
+        `;//col-sm-12 col-md-6 col-lg-4
     }
         
 }
 
-getpokemon()
-
 const transformName = () =>
 {
-    let splitByName = respuestaApiJson.name.split('') //Se usa para separar el string
-    let upperCase = splitByName[0].toUpperCase()//Creamos la primera letra en mayuscula
-    splitByName.shift()//Quitamos la primera letra
-    splitByName.unshift(upperCase)//Agregamos al inicio la letra que convertimos en mayuscula
-    splitByName = splitByName.join('')//Unimos todo el array para volverlo en un string
-    return splitByName
+    let splitByName = respuestaApiJson.name.split(''); //Se usa para separar el string
+    let upperCase = splitByName[0].toUpperCase();//Creamos la primera letra en mayuscula
+    splitByName.shift();//Quitamos la primera letra
+    splitByName.unshift(upperCase);//Agregamos al inicio la letra que convertimos en mayuscula
+    splitByName = splitByName.join('');//Unimos todo el array para volverlo en un string
+    return splitByName;
 }
 
 const transformType = () =>
@@ -62,8 +68,27 @@ const transformType = () =>
     splitType.shift();
     splitType.unshift(upperCaseType);
     splitType = splitType.join('');
-    getType.unshift(splitType)
-    getType = getType.join(', ')
+    getType.unshift(splitType);
+    getType = getType.join(', ');
     
     return getType;
 }
+
+let btn_next = () =>
+{
+    iterator = counter +1;
+    //console.log("🚀 ~ iterator", iterator)
+    counter += 20;
+    //console.log("🚀 ~ counter", counter);
+    getpokemon(iterator,counter);
+}
+
+
+let idPokemon = () =>
+{
+    let getIdPokemon = respuestaApiJson.id;
+    //console.log(getIdPokemon)
+}
+
+getpokemon(iterator,counter);
+
