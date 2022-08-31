@@ -6,8 +6,6 @@
 let respuestaAPI;
 let respuestaApiJson;
 
-
-
 let counter = 20;
 
 let iterator = 1;
@@ -134,5 +132,27 @@ const invisiblePreview = () =>
     }
     
 }
+
+//let URI_byName = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
+//let URI_byId = `https://pokeapi.co/api/v2/pokemon/${id}`;
+//getJson(URI)
+
+let gotcha = () =>
+{
+    let search = document.getElementById('search-pokemon').value;
+    let numberSearch = Number(search)
+
+    if(isNaN(numberSearch)) //Validamos si el valor ingresado no es un numero :. quiere decir que es un string
+    {
+
+        console.log('no se ingreso un numero')
+        search = search.toLowerCase();
+        console.log("🚀 ~ number", search)
+    }
+    else{
+        console.log("Se ingreso un numero", numberSearch)
+    }
     
+}
+
 getpokemon(iterator,counter);
