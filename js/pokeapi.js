@@ -30,11 +30,9 @@ async function getpokemon(iter,count)
         newURI = `https://pokeapi.co/api/v2/pokemon/${i}`;
         await getJson(newURI);
 
-        idPokemon()
-
         container.innerHTML += `
-        <div class = "card m-1" style="width: 18rem;"> 
-            <h3 id="number_of_pokemon">${respuestaApiJson.id}</h3>
+        <div class = "card m-1 pt-3" style="width: 18rem;"> 
+            <h3 id="number_of_pokemon">${idPokemon()}</h3>
             <img src=${respuestaApiJson.sprites.other["official-artwork"].front_default} class="card-img-top" alt="${respuestaApiJson.name}.png">
             
             <div class="card-body">
@@ -88,6 +86,17 @@ let idPokemon = () =>
 {
     let getIdPokemon = respuestaApiJson.id;
     //console.log(getIdPokemon)
+    if (getIdPokemon <= 9)
+    {
+        getIdPokemon = "00"+getIdPokemon;
+        console.log(getIdPokemon)
+    }
+    else if ( getIdPokemon >= 10  || getIdPokemon < 99 )
+    {
+        getIdPokemon = "0"+getIdPokemon;
+        console.log(getIdPokemon)
+    }
+    return getIdPokemon;
 }
 
 getpokemon(iterator,counter);
