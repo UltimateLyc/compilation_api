@@ -21,14 +21,16 @@ async function getJson(URI)
 
 async function getpokemon(iter,count)
 {
-    let newURI;
+    let URI;
     let container = document.getElementById('container_cards');
     container.innerHTML = "";
 
+    invisiblePreview()
+
     for(let i = iter ; i <= count; i++)
     {
-        newURI = `https://pokeapi.co/api/v2/pokemon/${i}`;
-        await getJson(newURI);
+        URI = `https://pokeapi.co/api/v2/pokemon/${i}`;
+        await getJson(URI);
 
         container.innerHTML += `
         <div class = "card m-1 pt-3" style="width: 18rem;"> 
@@ -72,16 +74,6 @@ const transformType = () =>
     return getType;
 }
 
-let btn_next = () =>
-{
-    iterator = counter +1;
-    //console.log("🚀 ~ iterator", iterator)
-    counter += 20;
-    //console.log("🚀 ~ counter", counter);
-    getpokemon(iterator,counter);
-}
-
-
 let idPokemon = () =>
 {
     let getIdPokemon = respuestaApiJson.id;
@@ -89,15 +81,60 @@ let idPokemon = () =>
     if (getIdPokemon <= 9)
     {
         getIdPokemon = "00"+getIdPokemon;
-        console.log(getIdPokemon)
     }
     else if ( getIdPokemon >= 10  || getIdPokemon < 99 )
     {
         getIdPokemon = "0"+getIdPokemon;
-        console.log(getIdPokemon)
     }
     return getIdPokemon;
 }
+
+let btn_next = () =>
+{
+    iterator = counter +1;
+    console.log("🚀 ~ iterator", iterator)
+    counter += 20;
+    console.log("🚀 ~ counter", counter);
+    getpokemon(iterator,counter);
+
+    if (iterator > 2 )
+    {
+        visiblePreview();
+    }
+}
+
+const visiblePreview = () =>
+{
+    let visible = document.getElementById('btn_footer_preview');
+    visible.classList.remove('invisible');
+    visible.classList.add('visible');
+}
+
+let btn_preview = () => 
+{
+    if (iterator > 1)
+    {
+        iterator -= 20;
+        console.log("🚀 ~ iterator", iterator)
+        counter -= 20;
+        console.log("🚀 ~ counter", counter)
+        getpokemon(iterator,counter);
+    }
+}
+
+const invisiblePreview = () =>
+{
+    let invisible = document.getElementById('btn_footer_preview');
+
+    if (iterator === 1)
+    {
+        console.log('si entre')
+        invisible.classList.remove('visible');
+        invisible.classList.add('invisible');
+    }
+    
+}
+    
 
 getpokemon(iterator,counter);
 
