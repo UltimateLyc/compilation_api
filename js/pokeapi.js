@@ -82,10 +82,11 @@ let idPokemon = () =>
     {
         getIdPokemon = "00"+getIdPokemon;
     }
-    else if ( getIdPokemon >= 10  || getIdPokemon < 99 )
+    else if ( getIdPokemon > 9  && getIdPokemon < 100 )
     {
-        getIdPokemon = "0"+getIdPokemon;
+        getIdPokemon = "0"+ getIdPokemon;
     }
+   
     return getIdPokemon;
 }
 
@@ -128,13 +129,10 @@ const invisiblePreview = () =>
 
     if (iterator === 1)
     {
-        console.log('si entre')
         invisible.classList.remove('visible');
         invisible.classList.add('invisible');
     }
     
 }
     
-
 getpokemon(iterator,counter);
-
