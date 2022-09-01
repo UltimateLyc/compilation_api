@@ -86,11 +86,29 @@ let btn_next = () =>
 
     iterator = counter +1;
     counter += 20;
+    invisibleNext();
     getpokemon(iterator,counter);
 
     if (iterator > 2 )
     {
         visiblePreview();
+    }
+
+
+}
+/* Function that change the class of the next button for invisible or visible*/
+const invisibleNext = () =>
+{
+    let containerNext = document.getElementById('btn_footer_next')
+    if(counter > 905)
+    {
+        containerNext.classList.remove('visible');
+        containerNext.classList.add('invisible');
+    }
+    else if ( counter < 905)
+    {
+        containerNext.classList.remove('invisible');
+        containerNext.classList.add('visible');
     }
 }
 
@@ -111,8 +129,21 @@ let btn_preview = () =>
     {
         iterator -= 20;
         counter -= 20;
-        getpokemon(iterator,counter);
+
+        if(iterator < 1)
+        {
+            iterator = 1
+            counter = 20
+            getpokemon(iterator,counter);
+        }
+        else
+        {
+            getpokemon(iterator,counter);
+        }
+        
     }
+    invisibleNext()
+    
 }
 
 /* Function that change the class of the preview button for invisible */
@@ -131,8 +162,9 @@ const invisiblePreview = () =>
 /* Buttom function Search a pokemon */
 async function gotcha()
 {
-    
     containerCardSearch.innerHTML = "";
+
+    let getJsonByName;
 
     let search = document.getElementById('search-pokemon').value;
     let numberSearch = Number(search);
@@ -140,15 +172,20 @@ async function gotcha()
     if(isNaN(numberSearch)) //Validamos si el valor ingresado no es un numero :. quiere decir que es un string
     {
         search = search.toLowerCase();
-        URI_byName = `https://pokeapi.co/api/v2/pokemon/${search}`;
+        let URI_byName = `https://pokeapi.co/api/v2/pokemon/${search}`;
 
-        printSeacrhCard(containerCardSearch, await getJson(URI_byName))
-
-        if (getJsonByName.id == undefined)
+        getJsonByName = await getJson(URI_byName);
+        
+        /* if (getJsonByName.id == undefined)
         {
             alert("ingreso mal todo ¡tas tonto o que!");
         }
-
+        else
+        { */
+            printSeacrhCard(containerCardSearch, await getJson(URI_byName));
+            nextsCards(getJsonByName.id);
+            
+        //}
     }
     else{
     
@@ -160,11 +197,26 @@ async function gotcha()
         }
         else
         {
-            printSeacrhCard(containerCardSearch, await getJson(URI_byId))
+            getJsonByName = await getJson(URI_byId)
+            printSeacrhCard(containerCardSearch, await getJson(URI_byId));
+            nextsCards(getJsonByName.id);
         }
         
     }
     
+}
+
+//Function that print next cards of your search
+let nextsCards = (idSearch) =>
+{
+    iterator = idSearch + 1;
+    counter = iterator +19;
+    if (iterator > 2 )
+    {
+    visiblePreview();
+    }
+    invisibleNext();
+    getpokemon(iterator,counter)
 }
 
 /* Function that print cards of the pokemons */
@@ -189,9 +241,10 @@ const printSeacrhCard = (setcontainerCard ,setUriCard) =>
             </div>`;
 }
 
-function cardTest(idCard)
+getpokemon(iterator,counter);
+
+
+async function cardTest(idCard)
 {
     console.log("🚀 ~ idCard", idCard)
 }
-
-getpokemon(iterator,counter);
