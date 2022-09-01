@@ -1,9 +1,15 @@
 //import fetch from "node-fetch";
 
+/* Global Variable  */
 let counter = 20;
 let iterator = 1;
 let getRespuestaJson;
 
+/* Container DOM  */
+let containerCardSearch = document.getElementById('container_card_search');
+let container = document.getElementById('container_cards');
+
+/* Function get JSON of the API  */
 async function getJson(URI)
 {
     let respuestaAPI = await fetch(URI);
@@ -11,12 +17,12 @@ async function getJson(URI)
     return respuestaApiJson;
 }
 
-
+/* Function print principal Dashboard  */
 async function getpokemon(iter,count)
 {
     let URI;
     
-    let container = document.getElementById('container_cards');
+    
     container.innerHTML = "";
 
     invisiblePreview();//Se ejecuta la funcion para validar el estado de los contadores e iteradores
@@ -29,6 +35,7 @@ async function getpokemon(iter,count)
         
 }
 
+/* Function that transform first letter of name  */
 const transformName = (setName) =>
 { 
     let splitByName = setName.name.split(''); //Se usa para separar el string
@@ -39,6 +46,7 @@ const transformName = (setName) =>
     return splitByName;
 }
 
+/* Function that transform first letter of type  */
 const transformType = (setType) =>
 {
     let getType = (setType.types.map((objeto)=>objeto.type.name));
@@ -55,10 +63,10 @@ const transformType = (setType) =>
     return getType;
 }
 
+/* Function that adds zeros to the ID  */
 let idPokemon = (setId) =>
 {
     let getIdPokemon = setId.id;
-    //console.log(getIdPokemon)
     if (getIdPokemon <= 9)
     {
         getIdPokemon = "00"+getIdPokemon;
@@ -71,8 +79,11 @@ let idPokemon = (setId) =>
     return getIdPokemon;
 }
 
+/* Buttom function next */
 let btn_next = () =>
 {
+    containerCardSearch.innerHTML = "";
+
     iterator = counter +1;
     counter += 20;
     getpokemon(iterator,counter);
@@ -83,6 +94,7 @@ let btn_next = () =>
     }
 }
 
+/* Function that change the class of the preview button for visible */
 const visiblePreview = () =>
 {
     let visible = document.getElementById('btn_footer_preview');
@@ -90,8 +102,11 @@ const visiblePreview = () =>
     visible.classList.add('visible');
 }
 
+/* Buttom function preview */
 let btn_preview = () => 
 {
+    containerCardSearch.innerHTML = "";
+
     if (iterator > 1)
     {
         iterator -= 20;
@@ -100,6 +115,7 @@ let btn_preview = () =>
     }
 }
 
+/* Function that change the class of the preview button for invisible */
 const invisiblePreview = () =>
 {
     let invisible = document.getElementById('btn_footer_preview');
@@ -112,11 +128,10 @@ const invisiblePreview = () =>
     
 }
 
+/* Buttom function Search a pokemon */
 async function gotcha()
 {
-    //let idSearch;
-
-    let containerCardSearch = document.getElementById('container_card_search');
+    
     containerCardSearch.innerHTML = "";
 
     let search = document.getElementById('search-pokemon').value;
@@ -127,16 +142,6 @@ async function gotcha()
         search = search.toLowerCase();
         URI_byName = `https://pokeapi.co/api/v2/pokemon/${search}`;
 
-        /* idSearch = await getJson(URI_byName)
-        idSearch = idSearch.id
-        iterator = idSearch + 1;
-        console.log("🚀 ~ idSearch", iterator)
-        counter = iterator + 20;
-        console.log("🚀 ~ counter", counter)
-        
-        visiblePreview()
-        getpokemon(iterator,counter)
-         */
         printSeacrhCard(containerCardSearch, await getJson(URI_byName))
 
         if (getJsonByName.id == undefined)
@@ -162,12 +167,13 @@ async function gotcha()
     
 }
 
+/* Function that print cards of the pokemons */
 const printSeacrhCard = (setcontainerCard ,setUriCard) =>
 {
     setcontainerCard.innerHTML += `
             <div id = "card-pokemon" class = "card pt-3 " style="width: 18rem;"> 
 
-                <a id = "pokemon-${setUriCard.id}" href="#">
+                <a onclick="cardTest(${setUriCard.id})" id = "pokemon-${setUriCard.id}" href="#">
 
                     <h3 id="number_of_pokemon">${idPokemon(setUriCard)}</h3>
                     
@@ -181,6 +187,11 @@ const printSeacrhCard = (setcontainerCard ,setUriCard) =>
                     </div>
                 </a>
             </div>`;
+}
+
+function cardTest(idCard)
+{
+    console.log("🚀 ~ idCard", idCard)
 }
 
 getpokemon(iterator,counter);
