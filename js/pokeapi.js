@@ -1,3 +1,4 @@
+//indexOf
 //import fetch from "node-fetch";
 
 /* Global Variable  */
@@ -21,7 +22,6 @@ async function getJson(URI)
 async function getpokemon(iter,count)
 {
     let URI;
-    
     
     container.innerHTML = "";
 
@@ -247,4 +247,22 @@ getpokemon(iterator,counter);
 async function cardTest(idCard)
 {
     console.log("🚀 ~ idCard", idCard)
+    let URI_ID = `https://pokeapi.co/api/v2/pokemon/${idCard}`
+    let cardJson = await getJson(URI_ID)
+    console.log("🚀 ~ cardJson", cardJson)
+
+    /* Part of weakness  */ 
+    console.log("🚀 ~ get URI for weakness", cardJson.types.map((objeto)=>objeto.type.url))
+    let weaknessURI = cardJson.types.map((objeto)=>objeto.type.url)
+    let weakness = await getJson(weaknessURI[0])
+    console.log("🚀 ~ weakness obj", weakness)
+
+    /* Other parts */ 
+
+    //console.log("🚀 ~ get stats", cardJson.stats)//Conseguimos sus los stats "length = 6 || base_stat =  valor de un stat || stats[length].stat.name = muestra el nombre del stat " !important
+    //console.log("🚀 ~ get moves", cardJson.moves.map((objeto)=>objeto.move.name))//Conseguimos sus movimientos !important
+    //console.log("🚀 ~ get heigth", cardJson.height)//Conseguimos sus Altura !important
+    //console.log("🚀 ~ get weigth", cardJson.weight)//Conseguimos sus Peso !important
+    //console.log("🚀 ~ get abilities", cardJson.abilities.map((objeto)=>objeto.ability.name))//Conseguimos sus habilidades !important
+    
 }
